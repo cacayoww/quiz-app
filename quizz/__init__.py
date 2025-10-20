@@ -9,7 +9,10 @@ app.config['SECRET_KEY'] = '2cabb2b9ce7e4297c17ab545'
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
+login_manager.init_app(app)
 
+# set default redirect untuk login_required
+login_manager.login_view = '/'  # ganti ke route yang kamu mau
 def create_tables():
     with app.app_context():
         db.create_all()

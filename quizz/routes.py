@@ -23,9 +23,15 @@ def home():
     url_forecast = f"http://api.openweathermap.org/data/2.5/forecast?lat={r['lat']}&lon={r['lon']}&units=metric&lang=id&appid=a0d923c60f5713ba036767a53e9fd928"
     r_forecast = requests.get(url_forecast).json()
     simplified_forecast = []
-
+    day_temp = -99
+    night_temp = -99
     for item in r_forecast['list']:
         dt = datetime.datetime.strptime(item['dt_txt'], '%Y-%m-%d %H:%M:%S')
+        if dt.date() == datetime.datetime.now().date():
+            if 6 <= dt.hour <= 18 and day_temp < item['main']['temp']:
+                day_temp = item['main']['temp']
+            elif (dt.hour < 6 or dt.hour > 18) and night_temp < item['main']['temp']:
+                night_temp = item['main']['temp']
         if (dt.date() - datetime.datetime.now().date()).days < 3:
             day_name = dt.strftime('%A')  
             time = dt.strftime('%H.%M')  
@@ -45,6 +51,11 @@ def home():
         simplified_forecast = []
         for item in r_forecast['list']:
             dt = datetime.datetime.strptime(item['dt_txt'], '%Y-%m-%d %H:%M:%S')
+            if dt.date() == datetime.datetime.now().date():
+                if 6 <= dt.hour <= 18 and day_temp < item['main']['temp']:
+                    day_temp = item['main']['temp']
+                elif dt.hour < 6 and dt.hour > 18 and night_temp < item['main']['temp']:
+                    night_temp = item['main']['temp']
             if (dt.date() - datetime.datetime.now().date()).days < 3:
                 day_name = dt.strftime('%A')  
                 time = dt.strftime('%H.%M')  
@@ -52,9 +63,9 @@ def home():
                 icon_code = item['weather'][0]['icon']
                 icon = f'https://openweathermap.org/img/wn/{icon_code}@2x.png'
                 simplified_forecast.append({"day":day_name, "time":time, "weather":weather, "icon": icon})
-        return render_template('home.html', current_year=current_year, form=form, date=current_date, location=current_location, temp=round(r_weather['main']['temp']), forecast=simplified_forecast)
+        return render_template('home.html', current_year=current_year, form=form, date=current_date, location=current_location, temp=round(r_weather['main']['temp']), forecast=simplified_forecast, day_temp=round(day_temp), night_temp=round(night_temp))
 
-    return render_template('home.html', current_year=current_year, form=form, date=current_date, location=current_location.city, temp=round(r_weather['main']['temp']), forecast=simplified_forecast)
+    return render_template('home.html', current_year=current_year, form=form, date=current_date, location=current_location.city, temp=round(r_weather['main']['temp']), forecast=simplified_forecast, day_temp=round(day_temp), night_temp=round(night_temp))
 
 @app.route('/get_cities')
 def get_cities():
@@ -86,7 +97,7 @@ def register():
         return redirect(url_for('login'))
     if form.errors != {}:
         for err in form.errors.values():
-            flash(err)
+            flash(err[0])
            
     return render_template('register.html', form=form)
 

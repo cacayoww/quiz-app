@@ -11,17 +11,23 @@
   {% endfor %} {% endif %} {% endwith %}
   <div class="row" style="margin-bottom: 24px">
     <div class="col-md-6" style="padding: 0px">
-      <form method="POST" id="search-form" class="d-flex">{{ form.hidden_tag() }} {{ form.city(id="city-input", class="form-control me-2", placeholder="Search", autocomplete="off") }}</form>
+      <form method="POST" id="search-form" class="d-flex">{{ form.hidden_tag() }} {{ form.city(id="city-input", class="form-control me-2", placeholder="Search", autocomplete="off", required=false) }}</form>
       <div id="suggestions" class="suggestions"></div>
     </div>
   </div>
   <div class="row" style="margin-bottom: 36px">
     <div class="w-100" style="background-color: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25)">
-      <div class="d-flex w-100 justify-content-between">
+      <div class="d-flex w-100 justify-content-between mb-2">
         <p>{{ location }}</p>
         <p>{{ date }}</p>
       </div>
-      <h3>{{ temp }}°C</h3>
+      <div class="d-flex w-100 justify-content-between">
+        <h3>{{ temp }}°C</h3>
+        <div style="text-align: end">
+          <p>suhu siang: {{ day_temp }}°C</p>
+          <p>suhu malam: {{ night_temp }}°C</p>
+        </div>
+      </div>
     </div>
   </div>
   <div class="row">
