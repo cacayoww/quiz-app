@@ -1,0 +1,72 @@
+{% extends 'base.html' %} {% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='quiz.css') }}" />
+{% endblock %} {% block title %}Quiz{% endblock %} {% block content %}
+<div class="container mt-3">
+  <!-- Flash Messages -->
+  {% with messages = get_flashed_messages(with_categories=True) %} {% if messages %} {% for category, message in messages %}
+  <div class="alert alert-{{ 'success' if category == 'success' else 'danger' }} alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+  {% endfor %} {% endif %} {% endwith %}
+
+  <!-- Score Card -->
+  <div class="score-card mb-4">
+    <p>{{ current_user.username }}</p>
+    <h1>{{ current_user.score }}</h1>
+  </div>
+
+  <!-- Quiz Card -->
+  <div class="quiz-card">
+    <form method="post">
+      {{ form.hidden_tag() }}
+      <input type="hidden" name="question_id" value="{{ quiz.id }}" />
+
+      <div class="question mb-4">
+        <h4>{{ quiz.question }}</h4>
+      </div>
+
+      <div class="options">
+        <div class="option-buttons">
+          <button type="button" class="option-btn" data-value="a" onclick="selectOption(this)"><strong>A)</strong> {{ quiz.option_a }}</button>
+
+          <button type="button" class="option-btn" data-value="b" onclick="selectOption(this)"><strong>B)</strong> {{ quiz.option_b }}</button>
+
+          <button type="button" class="option-btn" data-value="c" onclick="selectOption(this)"><strong>C)</strong> {{ quiz.option_c }}</button>
+
+          <button type="button" class="option-btn" data-value="d" onclick="selectOption(this)"><strong>D)</strong> {{ quiz.option_d }}</button>
+        </div>
+
+        <!-- Hidden input to store selected answer -->
+        <input type="hidden" name="answer" id="selected_answer" required />
+      </div>
+
+      <div class="text-center mt-4">{{ form.submit(class="btn btn-primary btn-lg") }}</div>
+    </form>
+  </div>
+</div>
+
+<script>
+  function selectOption(button) {
+    // Remove active class from all buttons
+    document.querySelectorAll(".option-btn").forEach((btn) => {
+      btn.classList.remove("active");
+    });
+
+    // Add active class to clicked button
+    button.classList.add("active");
+
+    // Set the hidden input value
+    document.getElementById("selected_answer").value = button.getAttribute("data-value");
+  }
+
+  // Prevent form submission if no option is selected
+  document.querySelector("form").addEventListener("submit", function (e) {
+    const selectedAnswer = document.getElementById("selected_answer").value;
+    if (!selectedAnswer) {
+      e.preventDefault();
+      alert("Silakan pilih salah satu jawaban!");
+    }
+  });
+</script>
+{% endblock %}

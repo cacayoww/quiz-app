@@ -1,0 +1,19 @@
+body {
+  min-height: 100vh;
+  background-color: #f5fbf3;
+}
+
+p {
+  margin: 0;
+}
+
+.btn-nav {
+  background-color: #6fc049;
+  color: white;
+  transition: all ease-in;
+}
+
+.btn-nav:hover {
+  color: white;
+  background-color: #56b12c;
+}

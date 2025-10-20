@@ -1,0 +1,99 @@
+.score-card {
+  width: max-content;
+  text-align: center;
+  padding: 20px 60px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  background-color: #73ceb7;
+  margin: 0 auto;
+}
+
+.score-card p {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.score-card h1 {
+  margin: 10px 0 0 0;
+  font-size: 36px;
+  color: #fff;
+  font-weight: bold;
+}
+
+.quiz-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 32px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  background-color: #91d9ae;
+  gap: 20px;
+}
+
+.question {
+  text-align: center;
+  font-weight: bold;
+  font-size: 32px;
+}
+
+.option-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.option-btn {
+  background-color: #fff;
+  border: 2px solid #e0e0e0;
+  padding: 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 16px;
+  text-align: left;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.option-btn:hover {
+  border-color: #007bff;
+  transform: translateY(-2px);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.option-btn.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+  transform: translateY(-2px);
+  box-shadow: 0px 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.option-btn strong {
+  color: inherit;
+  margin-right: 8px;
+}
+
+.option-btn.active strong {
+  color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .option-buttons {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .option-btn {
+    padding: 15px;
+    font-size: 14px;
+  }
+
+  .question {
+    font-size: 24px;
+  }
+}
